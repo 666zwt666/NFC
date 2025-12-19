@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡皮巴拉の好运转盘 🦫</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@500;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Noto Sans SC', sans-serif; 
+            background: linear-gradient(135deg, #f9e8c8 0%, #e8c898 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container { 
+            text-align: center; 
+            background: #fff9e8;
+            padding: 50px 40px; 
+            border-radius: 30px; 
+            box-shadow: 0 15px 30px rgba(163, 122, 68, 0.2);
+            border: 2px solid #d4b483;
+            position: relative;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        /* 顶部卡皮巴拉装饰 - 两个不同形态+摇摆动画 */
+        .top-capybaras {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .capybara-deco {
+            font-size: 40px;
+            animation: swing 3s ease-in-out infinite alternate;
+            transform-origin: center top; /* 摇摆原点在顶部 */
+        }
+        .capybara-deco:nth-child(1) {
+            content: "🦫"; /* 形态1：普通坐姿 */
+            animation-delay: 0.5s; /* 延迟动画，错开摇摆节奏 */
+        }
+        .capybara-deco:nth-child(2) {
+            content: "😴"; /* 形态2：睡颜形态 */
+        }
+        @keyframes swing {
+            0% { transform: rotate(-10deg); }
+            100% { transform: rotate(10deg); }
+        }
+
+        .container.hidden-style::before {
+            content: "🦫✨";
+            font-size: 50px;
+            position: absolute;
+            top: -25px;
+            right: 25px;
+            transform: rotate(20deg);
+            animation: shake 1s infinite alternate;
+        }
+        @keyframes shake {
+            0% { transform: rotate(20deg) scale(1); }
+            100% { transform: rotate(25deg) scale(1.1); }
+        }
+        h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #8b5a2b;
+            font-size: 36px;
+            margin: 30px 0 20px 0; /* 给顶部卡皮巴拉留出空间 */
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+        }
+        .wheel-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 20px auto;
+        }
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            transform-origin: 50% 50%;
+            border: 8px solid #d4b483;
+            box-shadow: 0 5px 15px rgba(163, 122, 68, 0.3);
+            margin: 0;
+        }
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: bottom right;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 0;
+        }
+        .segment-content {
+            position: absolute;
+            width: 100px;
+            text-align: center;
+            transform-origin: center;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            font-size: 20px;
+            margin: 0;
+        }
+        .wheel-center {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #a0522d;
+            top: calc(50% - 25px);
+            left: calc(50% - 25px);
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50" y="60" font-size="60" text-anchor="middle">🦫</text></svg>');
+            background-size: 80%;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+        }
+        .wheel-pointer {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            top: -15px;
+            left: calc(50% - 20px);
+            z-index: 5;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50" y="70" font-size="60" text-anchor="middle">🦫</text></svg>');
+            background-size: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: pointerBounce 2s infinite alternate;
+            margin: 0;
+        }
+        @keyframes pointerBounce {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        .wheel.hidden-result {
+            box-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700;
+        }
+        #blessingText { 
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 22px; 
+            color: #5c4033;
+            margin: 20px 0; 
+            min-height: 60px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            line-height: 1.5;
+            padding: 0 10px;
+            font-weight: 500;
+        }
+        #blessingText.hidden-text {
+            color: #d4af37;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+        }
+        button { 
+            background: linear-gradient(90deg, #d4b483 0%, #c19a6b 100%);
+            color: white; 
+            border: none; 
+            padding: 18px 40px; 
+            border-radius: 50px; 
+            font-size: 20px; 
+            cursor: pointer; 
+            margin: 20px auto 0; 
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(163, 122, 68, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        button:hover { 
+            background: linear-gradient(90deg, #c19a6b 0%, #a67c52 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(163, 122, 68, 0.4);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <!-- 顶部两个卡皮巴拉装饰 -->
+        <div class="top-capybaras">
+            <div class="capybara-deco">🦫</div>
+            <div class="capybara-deco">😴</div>
+        </div>
+
+        <h1>卡皮巴拉送好运啦</h1>
+        <div class="wheel-container">
+            <div class="wheel" id="wheel"></div>
+            <div class="wheel-center"></div>
+            <div class="wheel-pointer"></div>
+        </div>
+        <div id="blessingText">点击按钮，解锁水豚の专属祝福～</div>
+        <button onclick="spinWheel()">
+            <span>再转一次</span>
+            <span>🦫</span>
+        </button>
+    </div>
+
+    <script>
+        const baseBlessings = {
+            1: [
+                "🦫 不用急着赶路，专注做好当下的事，每一份努力都不会被辜负～",
+                "🦫 一步一个脚印走，慢慢来的速度，反而更稳当呀～"
+            ],
+            2: [
+                "🦫 有人懂你的温柔，也有人分享你的小欢喜，这样的日子就很好～",
+                "🦫 真心相待的关系，总能治愈生活里的所有疲惫～"
+            ],
+            3: [
+                "🦫 收支安稳，够用就好，小财小福常相伴，日子不慌不忙～",
+                "🦫 不用追求大富大贵，能满足日常的小期待，就是最好的财运～"
+            ],
+            4: [
+                "🦫 吃得香、睡得稳，身体无病痛，心里无烦恼，这就是最好的状态～",
+                "🦫 像水豚泡温泉一样放松身心，好好照顾自己，比什么都重要～"
+            ],
+            5: [
+                "🦫 开心时大笑，难过时也允许自己歇歇，接纳所有情绪的你，超可爱～",
+                "🦫 不用逼自己一直快乐，平凡日子里的小美好，就值得珍惜～"
+            ],
+            6: [
+                "🦫 所求皆如愿，所行皆坦途，哪怕有小波折，也能从容化解～",
+                "🦫 不是事事完美，而是遇到不顺时，也有继续往前走的勇气～"
+            ],
+            7: [
+                "🦫 所有的遗憾，都是未来惊喜的铺垫，慢慢来，好事多磨～",
+                "🦫 你走的每一步，都在靠近想要的生活，别急，时间会给答案～"
+            ],
+            8: [
+                "🦫 保持热爱，奔赴山海，平凡的日子也能开出温柔的花～",
+                "🦫 做自己的太阳，无需借谁的光，你本身就足够耀眼～"
+            ]
+        };
+
+        const hiddenBlessings = [
+            "✨隐藏款触发！🦫 愿你接下来的日子，既有意料之中的美好，也有意料之外的惊喜～",
+            "✨欧气爆棚！🦫 解锁卡皮巴拉专属祝福：你值得所有的好运和温柔，只管往前走～",
+            "✨天选水豚！🦫 隐藏款彩蛋掉落：慢慢来，一切都会朝着你想要的方向发展～",
+            "✨稀有buff！🦫 偷偷告诉你：你本身就自带好运，只是偶尔忘了而已～"
+        ];
+
+        const hiddenProbability = 0.1;
+        let currentRotation = 0;
+
+        function createWheelSegments() {
+            const wheel = document.getElementById('wheel');
+            const segments = 8;
+            const colors = [
+                '#e86f68', '#68a0e8', '#68e8a0', 
+                '#e8c668', '#b068e8', '#e868b0',
+                '#68e8e8', '#a0e868'
+            ];
+            
+            for (let i = 0; i < segments; i++) {
+                const segment = document.createElement('div');
+                segment.className = 'wheel-segment';
+                segment.style.transform = `rotate(${i * 45}deg)`;
+                segment.style.backgroundColor = colors[i];
+                
+                const content = document.createElement('div');
+                content.className = 'segment-content';
+                content.textContent = i + 1;
+                content.style.transform = `rotate(${22.5 + i * 45}deg) translateY(-95px)`;
+                
+                segment.appendChild(content);
+                wheel.appendChild(segment);
+            }
+        }
+
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function spinWheel() {
+            const container = document.getElementById('mainContainer');
+            const wheel = document.getElementById('wheel');
+            const blessingDiv = document.getElementById('blessingText');
+            container.classList.remove('hidden-style');
+            wheel.classList.remove('hidden-result');
+            blessingDiv.classList.remove('hidden-text');
+            
+            const button = document.querySelector('button');
+            button.disabled = true;
+            button.innerHTML = "<span>转动中...</span><span>🦫</span>";
+
+            const minSpins = 3;
+            const maxSpins = 5;
+            const spinAngle = 360 * (minSpins + Math.random() * (maxSpins - minSpins));
+            const segmentAngle = 360 / 8;
+            const randomOffset = Math.floor(Math.random() * 8) * segmentAngle;
+            
+            currentRotation += spinAngle + randomOffset;
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                const isHidden = Math.random() < hiddenProbability;
+                if (isHidden) {
+                    wheel.classList.add('hidden-result');
+                    blessingDiv.textContent = getRandomItem(hiddenBlessings);
+                    blessingDiv.classList.add('hidden-text');
+                    container.classList.add('hidden-style');
+                } else {
+                    const normalizedRotation = ((currentRotation % 360) + 360) % 360;
+                    const segmentIndex = Math.floor((360 - normalizedRotation) % 360 / segmentAngle);
+                    const finalNum = segmentIndex + 1;
+                    
+                    blessingDiv.textContent = getRandomItem(baseBlessings[finalNum]);
+                }
+                
+                button.disabled = false;
+                button.innerHTML = "<span>再转一次</span><span>🦫</span>";
+            }, 5000);
+        }
+
+        window.onload = () => {
+            createWheelSegments();
+            spinWheel();
+        };
+    </script>
+</body>
+</html>
